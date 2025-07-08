@@ -1,0 +1,1448 @@
+{
+  "log": {
+    "level": "warn",
+    "output": "box.log",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns-remote",
+        "address": "udp://1.1.1.1",
+        "address_resolver": "dns-direct"
+      },
+      {
+        "tag": "dns-trick-direct",
+        "address": "https://sky.rethinkdns.com/",
+        "detour": "direct-fragment"
+      },
+      {
+        "tag": "dns-direct",
+        "address": "1.1.1.1",
+        "address_resolver": "dns-local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-local",
+        "address": "local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-block",
+        "address": "rcode://success"
+      }
+    ],
+    "rules": [
+      {
+        "domain": "cp.cloudflare.com",
+        "server": "dns-remote",
+        "rewrite_ttl": 3000
+      }
+    ],
+    "final": "dns-remote",
+    "static_ips": {
+      "sky.rethinkdns.com": [
+        "104.17.147.22",
+        "104.17.148.22",
+        "188.114.97.3",
+        "188.114.96.3"
+      ]
+    },
+    "independent_cache": true
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 12334,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "set_system_proxy": true
+    },
+    {
+      "type": "direct",
+      "tag": "dns-in",
+      "listen": "127.0.0.1",
+      "listen_port": 16450
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "select",
+      "outbounds": [
+        "auto",
+        "🔒 VL-GRPC-RLT 🇩🇪 DE-91.99.195.6:80 § 0",
+        "🔒 VL-TCP-RLT 🇺🇸 US-172.245.232.117:443 § 1",
+        "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.136:1370 § 2",
+        "🔒 VL-TCP-RLT 🇰🇿 KZ-83.222.23.113:443 § 3",
+        "🔒 VL-TCP-RLT 🇫🇷 FR-57.128.164.209:1370 § 4",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-157.173.127.225:443 § 5",
+        "🔒 VL-TCP-RLT 🇮🇷 IR-45.94.213.188:55700 § 6",
+        "🔒 VL-TCP-RLT 🇸🇬 SG-113.29.230.65:8880 § 7",
+        "🔒 VL-TCP-RLT 🇳🇱 NL-188.227.84.78:8443 § 8",
+        "🔒 VL-TCP-RLT 🇳🇱 NL-185.70.185.249:443 § 9",
+        "🔒 VL-TCP-RLT 🇰🇷 KR-8.213.149.42:443 § 10",
+        "🔒 VL-TCP-RLT 🇷🇺 RU-109.120.189.30:443 § 11",
+        "🔒 VL-TCP-RLT 🇨🇦 CA-148.113.174.213:28495 § 12",
+        "🔒 VL-TCP-RLT 🇭🇰 HK-8.218.114.184:443 § 13",
+        "🔒 VL-TCP-RLT 🇰🇿 KZ-176.120.72.63:38339 § 14",
+        "🔒 VL-TCP-RLT 🇦🇱 AL-45.15.170.80:28495 § 15",
+        "🔒 VL-GRPC-RLT 🇮🇷 IR-185.49.105.170:8443 § 16",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-45.145.43.219:7022 § 17",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-2.59.135.137:7022 § 18",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-157.173.127.240:443 § 19",
+        "🔒 VL-TCP-RLT 🇸🇪 SE-150.241.65.211:443 § 20",
+        "🔒 VL-TCP-RLT 🇸🇬 SG-192.46.224.79:37063 § 21",
+        "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.133:1370 § 22",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-181.214.99.36:443 § 23",
+        "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.141.189:1370 § 24",
+        "🔒 VL-GRPC-RLT 🇩🇪 DE-209.38.114.204:17416 § 25",
+        "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.163:1370 § 26",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-62.60.158.83:443 § 27"
+      ],
+      "default": "auto",
+      "interrupt_exist_connections": true
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbounds": [
+        "🔒 VL-GRPC-RLT 🇩🇪 DE-91.99.195.6:80 § 0",
+        "🔒 VL-TCP-RLT 🇺🇸 US-172.245.232.117:443 § 1",
+        "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.136:1370 § 2",
+        "🔒 VL-TCP-RLT 🇰🇿 KZ-83.222.23.113:443 § 3",
+        "🔒 VL-TCP-RLT 🇫🇷 FR-57.128.164.209:1370 § 4",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-157.173.127.225:443 § 5",
+        "🔒 VL-TCP-RLT 🇮🇷 IR-45.94.213.188:55700 § 6",
+        "🔒 VL-TCP-RLT 🇸🇬 SG-113.29.230.65:8880 § 7",
+        "🔒 VL-TCP-RLT 🇳🇱 NL-188.227.84.78:8443 § 8",
+        "🔒 VL-TCP-RLT 🇳🇱 NL-185.70.185.249:443 § 9",
+        "🔒 VL-TCP-RLT 🇰🇷 KR-8.213.149.42:443 § 10",
+        "🔒 VL-TCP-RLT 🇷🇺 RU-109.120.189.30:443 § 11",
+        "🔒 VL-TCP-RLT 🇨🇦 CA-148.113.174.213:28495 § 12",
+        "🔒 VL-TCP-RLT 🇭🇰 HK-8.218.114.184:443 § 13",
+        "🔒 VL-TCP-RLT 🇰🇿 KZ-176.120.72.63:38339 § 14",
+        "🔒 VL-TCP-RLT 🇦🇱 AL-45.15.170.80:28495 § 15",
+        "🔒 VL-GRPC-RLT 🇮🇷 IR-185.49.105.170:8443 § 16",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-45.145.43.219:7022 § 17",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-2.59.135.137:7022 § 18",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-157.173.127.240:443 § 19",
+        "🔒 VL-TCP-RLT 🇸🇪 SE-150.241.65.211:443 § 20",
+        "🔒 VL-TCP-RLT 🇸🇬 SG-192.46.224.79:37063 § 21",
+        "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.133:1370 § 22",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-181.214.99.36:443 § 23",
+        "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.141.189:1370 § 24",
+        "🔒 VL-GRPC-RLT 🇩🇪 DE-209.38.114.204:17416 § 25",
+        "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.163:1370 § 26",
+        "🔒 VL-TCP-RLT 🇩🇪 DE-62.60.158.83:443 § 27"
+      ],
+      "url": "http://cp.cloudflare.com",
+      "interval": "10m0s",
+      "tolerance": 1,
+      "idle_timeout": "30m0s",
+      "interrupt_exist_connections": true
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-GRPC-RLT 🇩🇪 DE-91.99.195.6:80 § 0",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "91.99.195.6",
+              "port": 80,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "91a5d5b3-4b88-4359-aeec-e1532f535fd6"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "grpcSettings": {
+            "authority": "",
+            "mode": "",
+            "serviceName": "refersion.com",
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+          },
+          "network": "grpc",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "ZO276Z5WXIqCmNLXT8Lewzjhhgm365JUJXAKyKq8Rz4",
+            "serverName": "refersion.com",
+            "shortId": "bc063769cb",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-GRPC-RLT 🇩🇪 DE-91.99.195.6:80"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇺🇸 US-172.245.232.117:443 § 1",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "172.245.232.117",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "xtls-rprx-vision",
+                  "id": "02d3ce27-70f5-4d26-ae35-6e5840d5c1a0"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "firefox",
+            "publicKey": "dl8h7j1NKxBL_p2leIy9SWKznB0VG5h8ftsb0hlLICk",
+            "serverName": "google.com",
+            "shortId": "2404",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇺🇸 US-172.245.232.117:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.136:1370 § 2",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "198.244.140.136",
+              "port": 1370,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "e71f9e93-064e-4847-b628-f41c6e74e6cb"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "_N3KecwB9Ck28IIMxIck00ivkq3_ZEUvU3KXELnfvHw",
+            "serverName": "refersion.com",
+            "shortId": "e1afb93bfe75a34b",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.136:1370"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇰🇿 KZ-83.222.23.113:443 § 3",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "83.222.23.113",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "xtls-rprx-vision",
+                  "id": "9a8a52d6-f24b-4f03-bf6f-f4854717f54e"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "Jwam5OBjXf4bffZzA3IqzfcNONIMhYMgjysXPU44XFU",
+            "serverName": "google.com",
+            "shortId": "c4da507c203b545a",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇰🇿 KZ-83.222.23.113:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇫🇷 FR-57.128.164.209:1370 § 4",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "57.128.164.209",
+              "port": 1370,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "e71f9e93-064e-4847-b628-f41c6e74e6cb"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "_N3KecwB9Ck28IIMxIck00ivkq3_ZEUvU3KXELnfvHw",
+            "serverName": "refersion.com",
+            "shortId": "e1afb93bfe75a34b",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇫🇷 FR-57.128.164.209:1370"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-157.173.127.225:443 § 5",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "157.173.127.225",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "11beaf11-726d-4c11-8ce9-27308c1c608c"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "v3EwzA9RIIh5Ndxm-gypRY6RCJhOpQ-2WO7KaH8nsC8",
+            "serverName": "analytics.google.com",
+            "shortId": "eab26c4a32",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-157.173.127.225:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇮🇷 IR-45.94.213.188:55700 § 6",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "45.94.213.188",
+              "port": 55700,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "77b7af06-6e10-4afa-a9bb-461fab6db315"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "firefox",
+            "publicKey": "upY29Nxcyc_8q8shNAv_0XNdn0WJdy93iNlKbxLmFUA",
+            "serverName": "refersion.com",
+            "shortId": "ae839dceb524a40b",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇮🇷 IR-45.94.213.188:55700"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇸🇬 SG-113.29.230.65:8880 § 7",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "113.29.230.65",
+              "port": 8880,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "xtls-rprx-vision",
+                  "id": "54af7d89-3ac6-426b-82c2-993984064066"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "afyGbyVtSnU4-TVYh_UG3eAOwjrH2MNgxcxKeD_aOEM",
+            "serverName": "www.apple.com",
+            "shortId": "93c21ebdd1f7349e",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇸🇬 SG-113.29.230.65:8880"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇳🇱 NL-188.227.84.78:8443 § 8",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "188.227.84.78",
+              "port": 8443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "6d05705a-54b9-41ca-94fb-d70bbcf861a5"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "M9324bKRwuFoPbjfhXHmCdRa3gZdXtYPJAN5sSX1JHU",
+            "serverName": "zula.ir",
+            "shortId": "08d8a4e0",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇳🇱 NL-188.227.84.78:8443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇳🇱 NL-185.70.185.249:443 § 9",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "185.70.185.249",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "d0ff4f23-c59b-4933-8d84-d0fd1ac30132"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "firefox",
+            "publicKey": "dl7oqRj2nxh7BkFIiOOrW09iP0HK88zI73LeC60gI0c",
+            "serverName": "yahoo.com",
+            "shortId": "d6697813",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇳🇱 NL-185.70.185.249:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇰🇷 KR-8.213.149.42:443 § 10",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "8.213.149.42",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "5c183802-747d-4d2f-a6f1-aff2d5d78401"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "DNdTBHyztOVJOBJQX91YXEhNkWbSAntqUoTFBHc6Clw",
+            "serverName": "wwwimages2.adobe.com",
+            "shortId": "6ba85179e30d4fc2",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇰🇷 KR-8.213.149.42:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇷🇺 RU-109.120.189.30:443 § 11",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "109.120.189.30",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "xtls-rprx-vision",
+                  "id": "0a947205-01a0-4634-8e78-daf200d02def"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "cGzNRbN_zruI3CVTDukB2nOqWWEj7kgkay24f2fdLmQ",
+            "serverName": "maviks.eu",
+            "shortId": "0f917152a871e9c0",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇷🇺 RU-109.120.189.30:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇨🇦 CA-148.113.174.213:28495 § 12",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "148.113.174.213",
+              "port": 28495,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "7e296434-2d17-48d3-928d-19eaa34aecb1"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "KXMH8QzaRa66F6GxOR1CanBunO2uHdJvri2zCbar2RQ",
+            "serverName": "dl.google.com",
+            "shortId": "0ecc2c1392",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇨🇦 CA-148.113.174.213:28495"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇭🇰 HK-8.218.114.184:443 § 13",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "8.218.114.184",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "xtls-rprx-vision",
+                  "id": "f2d09fb7-ac3d-4b62-b359-e2c35a5be126"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "z3dsRlZdhVuCHIaU6d5nNePmRmNG_-KGdLpu-m0Jz0M",
+            "serverName": "www.ebay.com",
+            "shortId": "35f29e450ad773a3",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇭🇰 HK-8.218.114.184:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇰🇿 KZ-176.120.72.63:38339 § 14",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "176.120.72.63",
+              "port": 38339,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "481c5606-b586-44d7-bc2e-d8ef30d67f62"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "o0MFuznHh_Wztg0FTAMhFXm3hjAqOJAJIIVNn-_A9WA",
+            "serverName": "dl.google.com",
+            "shortId": "e16883e511",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇰🇿 KZ-176.120.72.63:38339"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇦🇱 AL-45.15.170.80:28495 § 15",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "45.15.170.80",
+              "port": 28495,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "7e296434-2d17-48d3-928d-19eaa34aecb1"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "KXMH8QzaRa66F6GxOR1CanBunO2uHdJvri2zCbar2RQ",
+            "serverName": "dl.google.com",
+            "shortId": "0ecc2c1392",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇦🇱 AL-45.15.170.80:28495"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-GRPC-RLT 🇮🇷 IR-185.49.105.170:8443 § 16",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "185.49.105.170",
+              "port": 8443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "3055df14-c714-4a00-a86b-b15c4c099ea5"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "grpcSettings": {
+            "authority": "",
+            "mode": "",
+            "serviceName": "lovelive",
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+          },
+          "network": "grpc",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "Z84J2IelR9ch3k8VtlVhhs5ycBUlXA7wHBWcBrjqnAw",
+            "serverName": "lovelive-anime.jp",
+            "shortId": "6ba85179e30d4fc2",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-GRPC-RLT 🇮🇷 IR-185.49.105.170:8443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-45.145.43.219:7022 § 17",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "45.145.43.219",
+              "port": 7022,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "651de6cb-df22-45cd-8842-438fdbef87fb"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "firefox",
+            "publicKey": "vj5pvcr-2G1kK7hKp937WrwAPtVg4p94HpqeCAuauD4",
+            "serverName": "refersion.com",
+            "shortId": "",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-45.145.43.219:7022"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-2.59.135.137:7022 § 18",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "2.59.135.137",
+              "port": 7022,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "651de6cb-df22-45cd-8842-438fdbef87fb"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "vj5pvcr-2G1kK7hKp937WrwAPtVg4p94HpqeCAuauD4",
+            "serverName": "refersion.com",
+            "shortId": "",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-2.59.135.137:7022"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-157.173.127.240:443 § 19",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "157.173.127.240",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "febf7810-0d6d-4f39-878c-8a2da6fdbcde"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "7PPRFCOZ9VVO3Df5-Q6P9WwvjQa13AbSlpaJQUTHPhI",
+            "serverName": "analytics.google.com",
+            "shortId": "522d25",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-157.173.127.240:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇸🇪 SE-150.241.65.211:443 § 20",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "150.241.65.211",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "8d9fae5b-d187-45b5-9a14-a5579a8ccdb2"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "LYJ37EcS5jyaezTVaVAVCkBWCrjXioiJHI7argkEnCU",
+            "serverName": "www.latimes.com",
+            "shortId": "236ac31d02",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇸🇪 SE-150.241.65.211:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇸🇬 SG-192.46.224.79:37063 § 21",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "192.46.224.79",
+              "port": 37063,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "73d48776-0224-49a0-8f0d-779c596517f4"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "kvk7jE-00JtLrjoH6qR7ysIy-TZE46OHfN9sLD50nxs",
+            "serverName": "yahoo.com",
+            "shortId": "3061e843",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇸🇬 SG-192.46.224.79:37063"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.133:1370 § 22",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "198.244.140.133",
+              "port": 1370,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "e71f9e93-064e-4847-b628-f41c6e74e6cb"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "_N3KecwB9Ck28IIMxIck00ivkq3_ZEUvU3KXELnfvHw",
+            "serverName": "refersion.com",
+            "shortId": "e1afb93bfe75a34b",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.133:1370"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-181.214.99.36:443 § 23",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "181.214.99.36",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "2ebdc8ed-7b96-4839-b32f-b5d21a11f320"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "zguKemuiateh9w_YrRsbWEwm94KaNd-fAUxuZMR1p2c",
+            "serverName": "docker.com",
+            "shortId": "781c",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-181.214.99.36:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.141.189:1370 § 24",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "198.244.141.189",
+              "port": 1370,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "e71f9e93-064e-4847-b628-f41c6e74e6cb"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "_N3KecwB9Ck28IIMxIck00ivkq3_ZEUvU3KXELnfvHw",
+            "serverName": "refersion.com",
+            "shortId": "e1afb93bfe75a34b",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.141.189:1370"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-GRPC-RLT 🇩🇪 DE-209.38.114.204:17416 § 25",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "209.38.114.204",
+              "port": 17416,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "2706427a-bf92-43b5-a001-37e31e4c4d56"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "grpcSettings": {
+            "authority": "",
+            "mode": "",
+            "serviceName": "",
+            "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+          },
+          "network": "grpc",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "X5W26tu1FjZOfBtofWeSH6QmkQddPR2wbM7atObEWik",
+            "serverName": "sourceforge.net",
+            "shortId": "b3",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-GRPC-RLT 🇩🇪 DE-209.38.114.204:17416"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.163:1370 § 26",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "198.244.140.163",
+              "port": 1370,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "e71f9e93-064e-4847-b628-f41c6e74e6cb"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "_N3KecwB9Ck28IIMxIck00ivkq3_ZEUvU3KXELnfvHw",
+            "serverName": "refersion.com",
+            "shortId": "e1afb93bfe75a34b",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇬🇧 GB-198.244.140.163:1370"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "xray",
+      "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-62.60.158.83:443 § 27",
+      "xray_outbound_raw": {
+        "protocol": "vless",
+        "settings": {
+          "vnext": [
+            {
+              "address": "62.60.158.83",
+              "port": 443,
+              "users": [
+                {
+                  "encryption": "none",
+                  "flow": "",
+                  "id": "6a01ebcb-d79f-4549-b978-99b065208244"
+                }
+              ]
+            }
+          ]
+        },
+        "streamSettings": {
+          "network": "tcp",
+          "realitySettings": {
+            "fingerprint": "chrome",
+            "publicKey": "icK7GXox0Ak4-J_YxfK9NeOHUUYGB855mYLFIXAcDxk",
+            "serverName": "miro.com",
+            "shortId": "3ed04f",
+            "spiderX": ""
+          },
+          "security": "reality"
+        },
+        "tag": "🔒 VL-TCP-RLT 🇩🇪 DE-62.60.158.83:443"
+      },
+      "xray_fragment": {
+        "packets": "",
+        "length": "",
+        "interval": "",
+        "host1_header": "",
+        "host1_domain": "",
+        "host2_header": "",
+        "host2_domain": ""
+      },
+      "xray_loglevel": ""
+    },
+    {
+      "type": "dns",
+      "tag": "dns-out"
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "direct",
+      "tag": "direct-fragment",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "bypass"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "inbound": "dns-in",
+        "outbound": "dns-out"
+      },
+      {
+        "port": 53,
+        "outbound": "dns-out"
+      }
+    ],
+    "final": "select",
+    "auto_detect_interface": true,
+    "override_android_vpn": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "clash.db"
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:16756",
+      "secret": "pwKGbjCWmRv46B1h"
+    }
+  }
+}
