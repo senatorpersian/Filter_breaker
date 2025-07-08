@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ریدایرکت مستقیم به لینک خام -->
+    <meta http-equiv="refresh" content="0; url=https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/Filter_breaker.txt">
     <title>Filter Breaker Subscription</title>
     <script>
         // لینک خام سابسکریپشن
         const subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/Filter_breaker.txt";
-        
+
         // هدایت به اپلیکیشن
         function redirectToApp() {
             try {
                 // تلاش برای باز کردن در Hiddify
                 window.location.href = "hiddify://import/" + encodeURIComponent(subLink);
-                // برای V2Ray یا Sing-box
-                setTimeout(() => {
-                    window.location.href = subLink;
-                }, 500);
             } catch (e) {
                 // اگه اپلیکیشن باز نشد، به لینک خام هدایت کن
                 window.location.href = subLink;
             }
-            // نمایش پیام برای مرورگر
+            // نمایش پیام فقط اگه توی مرورگر باشه
             setTimeout(() => {
-                alert("لطفاً لینک را در اپلیکیشن‌هایی مثل Hiddify، Sing-box یا V2Ray وارد کنید.");
-            }, 1000);
+                alert("لطفاً لینک را در اپلیکیشن‌هایی مثل Hiddify، Sing-box یا V2Ray وارد کنید.\nلینک: " + subLink);
+            }, 2000); // تأخیر 2 ثانیه برای نمایش پیام
         }
     </script>
 </head>
