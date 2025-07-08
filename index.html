@@ -68,16 +68,6 @@
             document.execCommand('copy');
             alert('لینک سابسکریپشن کپی شد! آن را در Hiddify، Sing-box یا V2Ray وارد کنید.');
         }
-
-        // تلاش برای ایمپورت خودکار موقع لود صفحه
-        window.onload = function() {
-            // فقط توی دستگاه‌هایی که اپلیکیشن نصب دارن امتحان کن
-            try {
-                window.location.href = 'hiddify://import/' + encodeURIComponent(subLink);
-            } catch (e) {
-                // اگه Hiddify باز نشد، صفحه HTML می‌مونه
-            }
-        };
     </script>
 </head>
 <body>
