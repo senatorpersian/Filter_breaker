@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ریدایرکت مستقیم به فایل رمزگذاری‌شده برای Hiddify -->
-    <meta http-equiv="refresh" content="0; url=https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt">
     <title>Filter Breaker Subscription</title>
     <style>
         body {
@@ -54,7 +52,7 @@
             if (app === 'hiddify') {
                 importUrl = 'hiddify://import/' + encodeURIComponent(subLink);
             } else if (app === 'v2ray') {
-                importUrl = 'v2ray://' + encodeURIComponent(subLink);
+                importUrl = subLink; // V2Ray و Sing-box لینک خام رو قبول می‌کنن
             }
             window.location.href = importUrl;
             // پیام برای مرورگر
@@ -70,6 +68,16 @@
             document.execCommand('copy');
             alert('لینک سابسکریپشن کپی شد! آن را در Hiddify، Sing-box یا V2Ray وارد کنید.');
         }
+
+        // تلاش برای ایمپورت خودکار موقع لود صفحه
+        window.onload = function() {
+            // فقط توی دستگاه‌هایی که اپلیکیشن نصب دارن امتحان کن
+            try {
+                window.location.href = 'hiddify://import/' + encodeURIComponent(subLink);
+            } catch (e) {
+                // اگه Hiddify باز نشد، صفحه HTML می‌مونه
+            }
+        };
     </script>
 </head>
 <body>
