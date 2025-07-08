@@ -46,18 +46,22 @@
         // لینک رمزگذاری‌شده سابسکریپشن
         const subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt";
 
-        // هدایت به اپلیکیشن‌ها فقط با کلیک
+        // هدایت به اپلیکیشن‌ها
         function importToApp(app) {
             let importUrl = subLink;
             if (app === 'hiddify') {
                 importUrl = 'hiddify://import/' + encodeURIComponent(subLink);
+            } else if (app === 'singbox') {
+                importUrl = 'sing-box://import-remote-profile?url=' + encodeURIComponent(subLink) + '#FilterBreaker';
             } else if (app === 'v2ray') {
-                importUrl = subLink; // V2Ray و Sing-box لینک خام رو قبول می‌کنن
+                importUrl = subLink; // V2Ray لینک خام رو قبول می‌کنه
             }
             window.location.href = importUrl;
             // پیام برای مرورگر
             setTimeout(() => {
-                alert('اگر اپلیکیشن باز نشد، لینک زیر را کپی کرده و در ' + (app === 'hiddify' ? 'Hiddify' : 'V2Ray/Sing-box') + ' وارد کنید:\n' + subLink);
+                alert('اگر اپلیکیشن باز نشد، لینک زیر را کپی کرده و در ' + 
+                      (app === 'hiddify' ? 'Hiddify' : app === 'singbox' ? 'Sing-box' : 'V2Ray') + 
+                      ' وارد کنید:\n' + subLink);
             }, 3000); // تأخیر 3 ثانیه برای خواندن پیام
         }
 
@@ -75,7 +79,8 @@
         <h1>Filter Breaker Subscription</h1>
         <p>برای استفاده از سابسکریپشن، یکی از گزینه‌های زیر را انتخاب کنید:</p>
         <a href="javascript:importToApp('hiddify')" class="button">ایمپورت در Hiddify</a>
-        <a href="javascript:importToApp('v2ray')" class="button">ایمپورت در V2Ray/Sing-box</a>
+        <a href="javascript:importToApp('singbox')" class="button">ایمپورت در Sing-box</a>
+        <a href="javascript:importToApp('v2ray')" class="button">ایمپورت در V2Ray</a>
         <a href="javascript:copyToClipboard()" class="button copy-button">کپی لینک سابسکریپشن</a>
         <p>لطفاً لینک را در اپلیکیشن‌های Hiddify، Sing-box یا V2Ray وارد کنید.</p>
         <textarea id="subLink" readonly>https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt</textarea>
