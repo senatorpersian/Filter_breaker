@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ریدایرکت مستقیم به فایل رمزگذاری‌شده برای Hiddify -->
+    <meta http-equiv="refresh" content="0; url=https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt">
     <title>Filter Breaker Subscription</title>
     <style>
         body {
@@ -43,8 +45,8 @@
         }
     </style>
     <script>
-        // لینک خام سابسکریپشن
-        const subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/Filter_breaker.txt";
+        // لینک رمزگذاری‌شده سابسکریپشن
+        const subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt";
 
         // هدایت به اپلیکیشن‌ها
         function importToApp(app) {
@@ -57,8 +59,8 @@
             window.location.href = importUrl;
             // پیام برای مرورگر
             setTimeout(() => {
-                alert('اگر اپلیکیشن باز نشد، لطفاً لینک زیر را کپی کرده و در ' + (app === 'hiddify' ? 'Hiddify' : 'V2Ray/Sing-box') + ' وارد کنید:\n' + subLink);
-            }, 2000);
+                alert('اگر اپلیکیشن باز نشد، لینک زیر را کپی کرده و در ' + (app === 'hiddify' ? 'Hiddify' : 'V2Ray/Sing-box') + ' وارد کنید:\n' + subLink);
+            }, 3000); // تأخیر 3 ثانیه برای خواندن پیام
         }
 
         // کپی لینک به کلیپ‌بورد
@@ -68,16 +70,6 @@
             document.execCommand('copy');
             alert('لینک سابسکریپشن کپی شد! آن را در Hiddify، Sing-box یا V2Ray وارد کنید.');
         }
-
-        // چک کردن اگر لینک مستقیم توی اپلیکیشن باز شد
-        window.onload = function() {
-            // تلاش برای باز کردن در Hiddify
-            try {
-                window.location.href = 'hiddify://import/' + encodeURIComponent(subLink);
-            } catch (e) {
-                // اگه Hiddify باز نشد، چیزی نکن
-            }
-        };
     </script>
 </head>
 <body>
@@ -88,7 +80,7 @@
         <a href="javascript:importToApp('v2ray')" class="button">ایمپورت در V2Ray/Sing-box</a>
         <a href="javascript:copyToClipboard()" class="button copy-button">کپی لینک سابسکریپشن</a>
         <p>لطفاً لینک را در اپلیکیشن‌های Hiddify، Sing-box یا V2Ray وارد کنید.</p>
-        <textarea id="subLink" readonly>https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/Filter_breaker.txt</textarea>
+        <textarea id="subLink" readonly>https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt</textarea>
     </div>
 </body>
 </html>
