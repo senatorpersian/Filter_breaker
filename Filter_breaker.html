@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filter Breaker Subscription</title>
     <script>
-        // آدرس لینک Raw شما
+        // آدرس لینک خام شما
         const subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/Filter_breaker.txt";
 
         // هدایت به اپلیکیشن یا نمایش پیام
         function redirectToApp() {
-            // تلاش برای باز کردن لینک در اپلیکیشن
             window.location.href = subLink;
-
-            // اگه مرورگر لینک رو باز کرد، پیام نشون بده
             setTimeout(() => {
                 alert("لطفاً این لینک را در اپلیکیشن‌هایی مثل Hiddify، Sing-box یا V2Ray وارد کنید.");
             }, 500);
