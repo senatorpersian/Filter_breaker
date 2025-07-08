@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Breaker Subscription</title>
+    <script>
+        // لینک خام سابسکریپشن
+        const subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/Filter_breaker.txt";
+        
+        // هدایت به اپلیکیشن
+        function redirectToApp() {
+            try {
+                // تلاش برای باز کردن در Hiddify
+                window.location.href = "hiddify://import/" + encodeURIComponent(subLink);
+                // برای V2Ray یا Sing-box
+                setTimeout(() => {
+                    window.location.href = subLink;
+                }, 500);
+            } catch (e) {
+                // اگه اپلیکیشن باز نشد، به لینک خام هدایت کن
+                window.location.href = subLink;
+            }
+            // نمایش پیام برای مرورگر
+            setTimeout(() => {
+                alert("لطفاً لینک را در اپلیکیشن‌هایی مثل Hiddify، Sing-box یا V2Ray وارد کنید.");
+            }, 1000);
+        }
+    </script>
+</head>
+<body onload="redirectToApp()">
+    <h1>لطفاً صبر کنید...</h1>
+    <p>در حال هدایت به لینک سابسکریپشن...</p>
+    <p>اگه هدایت نشدید، لینک زیر را در Hiddify، Sing-box یا V2Ray وارد کنید:</p>
+    <a href="https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/Filter_breaker.txt">لینک سابسکریپشن</a>
+</body>
+</html>
