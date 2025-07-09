@@ -21,7 +21,7 @@
             min-height: 100vh;
             overflow: hidden;
         }
-        canvas#binaryCanvas {
+        canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -88,23 +88,6 @@
         #subLink {
             display: none;
         }
-        .qr-code {
-            margin-top: 20px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            display: inline-block;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .qr-code img {
-            max-width: 150px;
-            width: 100%;
-        }
-        .qr-text {
-            font-size: 0.9rem;
-            color: #d0d0d0;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -118,13 +101,8 @@
         <a href="https://github.com/hiddify/hiddify-next/releases" target="_blank" class="button download-button">دانلود Hiddify</a>
         <a href="https://github.com/SagerNet/sing-box/releases" target="_blank" class="button download-button">دانلود Sing-box</a>
         <p>لطفاً لینک را در اپلیکیشن‌های Hiddify یا Sing-box وارد کنید.</p>
-        <div class="qr-code">
-            <canvas id="qrCode"></canvas>
-            <p class="qr-text">اسکن QR کد برای ایمپورت سابسکریپشن</p>
-        </div>
         <textarea id="subLink" readonly>https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt</textarea>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script>
         // Moving Binary Background and Main Logic
         document.addEventListener('DOMContentLoaded', () => {
@@ -168,26 +146,6 @@
 
                 // Subscription Link
                 window.subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt";
-
-                // Generate QR Code
-                const qrCodeCanvas = document.getElementById('qrCode');
-                if (!qrCodeCanvas) {
-                    console.error('QR code canvas not found');
-                    return;
-                }
-                QRCode.toCanvas(qrCodeCanvas, window.subLink, {
-                    width: 150,
-                    margin: 2,
-                    color: {
-                        dark: '#000000',
-                        light: '#ffffff'
-                    }
-                }, (error) => {
-                    if (error) {
-                        console.error('QR code generation error:', error);
-                        alert('خطا در تولید QR کد. لطفاً صفحه را رفرش کنید.');
-                    }
-                });
 
                 // Import to Apps
                 window.importToApp = function(app) {
