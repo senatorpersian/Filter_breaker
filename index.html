@@ -50,7 +50,7 @@
         function importToApp(app) {
             let importUrl = subLink;
             if (app === 'hiddify') {
-                importUrl = 'hiddify://import/' + encodeURIComponent(subLink);
+                importUrl = 'hiddify://import-remote-profile?url=' + encodeURIComponent(subLink) + '#FilterBreaker';
             } else if (app === 'singbox') {
                 importUrl = 'sing-box://import-remote-profile?url=' + encodeURIComponent(subLink) + '#FilterBreaker';
             } else if (app === 'v2ray') {
