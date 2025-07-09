@@ -78,6 +78,13 @@
         .copy-button:hover {
             box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
         }
+        .download-button {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        .download-button:hover {
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
         #subLink {
             display: none;
         }
@@ -90,10 +97,10 @@
         <p>برای استفاده از سابسکریپشن، یکی از گزینه‌های زیر را انتخاب کنید:</p>
         <a href="javascript:importToApp('hiddify')" class="button">ایمپورت در Hiddify</a>
         <a href="javascript:importToApp('singbox')" class="button">ایمپورت در Sing-box</a>
-        <a href="javascript:importToApp('v2ray')" class="button">ایمپورت در V2Ray</a>
-        <a href="javascript:importToApp('v2rayng')" class="button">ایمپورت در v2rayNG</a>
         <a href="javascript:copyToClipboard()" class="button copy-button">کپی لینک سابسکریپشن</a>
-        <p>لطفاً لینک را در اپلیکیشن‌های Hiddify، Sing-box، V2Ray یا v2rayNG وارد کنید.</p>
+        <a href="https://github.com/hiddify/hiddify-next/releases" target="_blank" class="button download-button">دانلود Hiddify</a>
+        <a href="https://github.com/SagerNet/sing-box/releases" target="_blank" class="button download-button">دانلود Sing-box</a>
+        <p>لطفاً لینک را در اپلیکیشن‌های Hiddify یا Sing-box وارد کنید.</p>
         <textarea id="subLink" readonly>https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt</textarea>
     </div>
     <script>
@@ -148,10 +155,6 @@
                             importUrl = 'hiddify://install-sub?url=' + encodeURIComponent(window.subLink);
                         } else if (app === 'singbox') {
                             importUrl = 'sing-box://install-sub?url=' + encodeURIComponent(window.subLink);
-                        } else if (app === 'v2ray') {
-                            importUrl = 'v2ray://install-sub?url=' + encodeURIComponent(window.subLink);
-                        } else if (app === 'v2rayng') {
-                            importUrl = 'v2rayng://install-sub?url=' + encodeURIComponent(window.subLink);
                         } else {
                             console.error('Unknown app:', app);
                             alert('اپلیکیشن ناشناخته. لطفاً دوباره تلاش کنید.');
@@ -160,9 +163,7 @@
                         window.location.href = importUrl;
                         setTimeout(() => {
                             alert('اگر اپلیکیشن باز نشد، لینک زیر را کپی کرده و در ' +
-                                  (app === 'hiddify' ? 'Hiddify' :
-                                   app === 'singbox' ? 'Sing-box' :
-                                   app === 'v2ray' ? 'V2Ray' : 'v2rayNG') +
+                                  (app === 'hiddify' ? 'Hiddify' : 'Sing-box') +
                                   ' وارد کنید:\n' + window.subLink);
                         }, 3000);
                     } catch (error) {
@@ -182,7 +183,7 @@
                     linkElement.select();
                     try {
                         document.execCommand('copy');
-                        alert('لینک سابسکریپشن کپی شد! آن را در Hiddify، Sing-box، V2Ray یا v2rayNG وارد کنید.');
+                        alert('لینک سابسکریپشن کپی شد! آن را در Hiddify یا Sing-box وارد کنید.');
                     } catch (err) {
                         console.error('Failed to copy:', err);
                         alert('خطا در کپی لینک. لطفاً لینک را به صورت دستی کپی کنید:\n' + window.subLink);
