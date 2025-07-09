@@ -56,13 +56,13 @@
         }
         .button {
             display: inline-block;
-            padding: 15px 30px;
-            margin: 10px;
+            padding: 15px 20px;
+            margin: 5px;
             background: linear-gradient(45deg, #28a745, #34c759);
             color: #fff;
             text-decoration: none;
             border-radius: 10px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
@@ -91,88 +91,108 @@
         <a href="javascript:importToApp('hiddify')" class="button">ایمپورت در Hiddify</a>
         <a href="javascript:importToApp('singbox')" class="button">ایمپورت در Sing-box</a>
         <a href="javascript:importToApp('v2ray')" class="button">ایمپورت در V2Ray</a>
+        <a href="javascript:importToApp('v2rayng')" class="button">ایمپورت در v2rayNG</a>
         <a href="javascript:copyToClipboard()" class="button copy-button">کپی لینک سابسکریپشن</a>
-        <p>لطفاً لینک را در اپلیکیشن‌های Hiddify، Sing-box یا V2Ray وارد کنید.</p>
+        <p>لطفاً لینک را در اپلیکیشن‌های Hiddify، Sing-box، V2Ray یا v2rayNG وارد کنید.</p>
         <textarea id="subLink" readonly>https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt</textarea>
     </div>
     <script>
-        // Moving Binary Background
+        // Moving Binary Background and Main Logic
         document.addEventListener('DOMContentLoaded', () => {
-            const canvas = document.getElementById('binaryCanvas');
-            if (!canvas) {
-                console.error('Canvas element not found');
-                return;
-            }
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const chars = '01';
-            const fontSize = 14;
-            const columns = canvas.width / fontSize;
-            const drops = Array(Math.floor(columns)).fill(1);
-
-            function draw() {
-                ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#0f0';
-                ctx.font = `${fontSize}px monospace`;
-
-                drops.forEach((y, i) => {
-                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
-                    ctx.fillText(text, i * fontSize, y * fontSize);
-                    if (y * fontSize > canvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    drops[i]++;
-                });
-            }
-
-            setInterval(draw, 33);
-            window.addEventListener('resize', () => {
+            try {
+                // Binary Background
+                const canvas = document.getElementById('binaryCanvas');
+                if (!canvas) {
+                    console.error('Canvas element not found');
+                    return;
+                }
+                const ctx = canvas.getContext('2d');
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-            });
+
+                const chars = '01';
+                const fontSize = 14;
+                const columns = canvas.width / fontSize;
+                const drops = Array(Math.floor(columns)).fill(1);
+
+                function draw() {
+                    ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#0f0';
+                    ctx.font = `${fontSize}px monospace`;
+
+                    drops.forEach((y, i) => {
+                        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                        ctx.fillText(text, i * fontSize, y * fontSize);
+                        if (y * fontSize > canvas.height && Math.random() > 0.975) {
+                            drops[i] = 0;
+                        }
+                        drops[i]++;
+                    });
+                }
+
+                setInterval(draw, 33);
+                window.addEventListener('resize', () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+
+                // Subscription Link
+                window.subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt";
+
+                // Import to Apps
+                window.importToApp = function(app) {
+                    try {
+                        let importUrl;
+                        if (app === 'hiddify') {
+                            importUrl = 'hiddify://install-sub?url=' + encodeURIComponent(window.subLink);
+                        } else if (app === 'singbox') {
+                            importUrl = 'sing-box://install-sub?url=' + encodeURIComponent(window.subLink);
+                        } else if (app === 'v2ray') {
+                            importUrl = 'v2ray://install-sub?url=' + encodeURIComponent(window.subLink);
+                        } else if (app === 'v2rayng') {
+                            importUrl = 'v2rayng://install-sub?url=' + encodeURIComponent(window.subLink);
+                        } else {
+                            console.error('Unknown app:', app);
+                            alert('اپلیکیشن ناشناخته. لطفاً دوباره تلاش کنید.');
+                            return;
+                        }
+                        window.location.href = importUrl;
+                        setTimeout(() => {
+                            alert('اگر اپلیکیشن باز نشد، لینک زیر را کپی کرده و در ' +
+                                  (app === 'hiddify' ? 'Hiddify' :
+                                   app === 'singbox' ? 'Sing-box' :
+                                   app === 'v2ray' ? 'V2Ray' : 'v2rayNG') +
+                                  ' وارد کنید:\n' + window.subLink);
+                        }, 3000);
+                    } catch (error) {
+                        console.error('Import error:', error);
+                        alert('خطا در ایمپورت. لطفاً دوباره تلاش کنید.');
+                    }
+                };
+
+                // Copy to Clipboard
+                window.copyToClipboard = function() {
+                    const linkElement = document.getElementById('subLink');
+                    if (!linkElement) {
+                        console.error('subLink element not found');
+                        alert('خطا در کپی لینک. لطفاً دوباره امتحان کنید.');
+                        return;
+                    }
+                    linkElement.select();
+                    try {
+                        document.execCommand('copy');
+                        alert('لینک سابسکریپشن کپی شد! آن را در Hiddify، Sing-box، V2Ray یا v2rayNG وارد کنید.');
+                    } catch (err) {
+                        console.error('Failed to copy:', err);
+                        alert('خطا در کپی لینک. لطفاً لینک را به صورت دستی کپی کنید:\n' + window.subLink);
+                    }
+                };
+            } catch (error) {
+                console.error('Initialization error:', error);
+                alert('خطا در بارگذاری صفحه. لطفاً صفحه را رفرش کنید.');
+            }
         });
-
-        // Subscription Link
-        const subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt";
-
-        // Import to Apps
-        function importToApp(app) {
-            let importUrl = subLink;
-            if (app === 'hiddify') {
-                importUrl = 'hiddify://import-remote-profile?url=' + encodeURIComponent(subLink) + '#FilterBreaker';
-            } else if (app === 'singbox') {
-                importUrl = 'sing-box://import-remote-profile?url=' + encodeURIComponent(subLink) + '#FilterBreaker';
-            } else if (app === 'v2ray') {
-                importUrl = subLink;
-            }
-            window.location.href = importUrl;
-            setTimeout(() => {
-                alert('اگر اپلیکیشن باز نشد، لینک زیر را کپی کرده و در ' + 
-                      (app === 'hiddify' ? 'Hiddify' : app === 'singbox' ? 'Sing-box' : 'V2Ray') + 
-                      ' وارد کنید:\n' + subLink);
-            }, 3000);
-        }
-
-        // Copy to Clipboard
-        function copyToClipboard() {
-            const linkElement = document.getElementById('subLink');
-            if (!linkElement) {
-                console.error('subLink element not found');
-                alert('خطا در کپی لینک. لطفاً دوباره امتحان کنید.');
-                return;
-            }
-            linkElement.select();
-            try {
-                document.execCommand('copy');
-                alert('لینک سابسکریپشن کپی شد! آن را در Hiddify، Sing-box یا V2Ray وارد کنید.');
-            } catch (err) {
-                console.error('Failed to copy:', err);
-                alert('خطا در کپی لینک. لطفاً لینک را به صورت دستی کپی کنید:\n' + subLink);
-            }
-        }
     </script>
 </body>
 </html>
