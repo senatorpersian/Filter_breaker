@@ -4,77 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filter Breaker Subscription</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            background-color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
         }
         .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
             max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        p {
+            font-size: 1rem;
+            color: #d0d0d0;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
         .button {
             display: inline-block;
             padding: 15px 30px;
             margin: 10px;
-            background-color: #28a745;
-            color: white;
+            background: linear-gradient(45deg, #28a745, #34c759);
+            color: #fff;
             text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
         }
         .button:hover {
-            background-color: #218838;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
         }
         .copy-button {
-            background-color: #007bff;
+            background: linear-gradient(45deg, #007bff, #00aaff);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
         }
         .copy-button:hover {
-            background-color: #0056b3;
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.6);
         }
         #subLink {
-            display: none; /* مخفی کردن لینک خام */
+            display: none;
         }
     </style>
-    <script>
-        // لینک رمزگذاری‌شده سابسکریپشن
-        const subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt";
-
-        // هدایت به اپلیکیشن‌ها
-        function importToApp(app) {
-            let importUrl = subLink;
-            if (app === 'hiddify') {
-                importUrl = 'hiddify://import-remote-profile?url=' + encodeURIComponent(subLink) + '#FilterBreaker';
-            } else if (app === 'singbox') {
-                importUrl = 'sing-box://import-remote-profile?url=' + encodeURIComponent(subLink) + '#FilterBreaker';
-            } else if (app === 'v2ray') {
-                importUrl = subLink; // V2Ray لینک خام رو قبول می‌کنه
-            }
-            window.location.href = importUrl;
-            // پیام برای مرورگر
-            setTimeout(() => {
-                alert('اگر اپلیکیشن باز نشد، لینک زیر را کپی کرده و در ' + 
-                      (app === 'hiddify' ? 'Hiddify' : app === 'singbox' ? 'Sing-box' : 'V2Ray') + 
-                      ' وارد کنید:\n' + subLink);
-            }, 3000); // تأخیر 3 ثانیه برای خواندن پیام
-        }
-
-        // کپی لینک به کلیپ‌بورد
-        function copyToClipboard() {
-            const linkElement = document.getElementById('subLink');
-            linkElement.select();
-            document.execCommand('copy');
-            alert('لینک سابسکریپشن کپی شد! آن را در Hiddify، Sing-box یا V2Ray وارد کنید.');
-        }
-    </script>
 </head>
 <body>
+    <canvas id="binaryCanvas"></canvas>
     <div class="container">
         <h1>Filter Breaker Subscription</h1>
         <p>برای استفاده از سابسکریپشن، یکی از گزینه‌های زیر را انتخاب کنید:</p>
@@ -85,5 +95,84 @@
         <p>لطفاً لینک را در اپلیکیشن‌های Hiddify، Sing-box یا V2Ray وارد کنید.</p>
         <textarea id="subLink" readonly>https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt</textarea>
     </div>
+    <script>
+        // Moving Binary Background
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('binaryCanvas');
+            if (!canvas) {
+                console.error('Canvas element not found');
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const chars = '01';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+
+            function draw() {
+                ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0f0';
+                ctx.font = `${fontSize}px monospace`;
+
+                drops.forEach((y, i) => {
+                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                    ctx.fillText(text, i * fontSize, y * fontSize);
+                    if (y * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                });
+            }
+
+            setInterval(draw, 33);
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        });
+
+        // Subscription Link
+        const subLink = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt";
+
+        // Import to Apps
+        function importToApp(app) {
+            let importUrl = subLink;
+            if (app === 'hiddify') {
+                importUrl = 'hiddify://import-remote-profile?url=' + encodeURIComponent(subLink) + '#FilterBreaker';
+            } else if (app === 'singbox') {
+                importUrl = 'sing-box://import-remote-profile?url=' + encodeURIComponent(subLink) + '#FilterBreaker';
+            } else if (app === 'v2ray') {
+                importUrl = subLink;
+            }
+            window.location.href = importUrl;
+            setTimeout(() => {
+                alert('اگر اپلیکیشن باز نشد، لینک زیر را کپی کرده و در ' + 
+                      (app === 'hiddify' ? 'Hiddify' : app === 'singbox' ? 'Sing-box' : 'V2Ray') + 
+                      ' وارد کنید:\n' + subLink);
+            }, 3000);
+        }
+
+        // Copy to Clipboard
+        function copyToClipboard() {
+            const linkElement = document.getElementById('subLink');
+            if (!linkElement) {
+                console.error('subLink element not found');
+                alert('خطا در کپی لینک. لطفاً دوباره امتحان کنید.');
+                return;
+            }
+            linkElement.select();
+            try {
+                document.execCommand('copy');
+                alert('لینک سابسکریپشن کپی شد! آن را در Hiddify، Sing-box یا V2Ray وارد کنید.');
+            } catch (err) {
+                console.error('Failed to copy:', err);
+                alert('خطا در کپی لینک. لطفاً لینک را به صورت دستی کپی کنید:\n' + subLink);
+            }
+        }
+    </script>
 </body>
 </html>
