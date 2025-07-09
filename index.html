@@ -174,19 +174,44 @@
 
                 // Copy to Clipboard
                 window.copyToClipboard = function() {
+                    const link = "https://raw.githubusercontent.com/senatorpersian/Filter_breaker/refs/heads/main/sub.txt";
                     const linkElement = document.getElementById('subLink');
                     if (!linkElement) {
                         console.error('subLink element not found');
                         alert('خطا در کپی لینک. لطفاً دوباره امتحان کنید.');
                         return;
                     }
-                    linkElement.select();
-                    try {
-                        document.execCommand('copy');
-                        alert('لینک سابسکریپشن کپی شد! آن را در Hiddify یا Sing-box وارد کنید.');
-                    } catch (err) {
-                        console.error('Failed to copy:', err);
-                        alert('خطا در کپی لینک. لطفاً لینک را به صورت دستی کپی کنید:\n' + window.subLink);
+
+                    // Try modern Clipboard API
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(link)
+                            .then(() => {
+                                alert('لینک سابسکریپشن کپی شد! آن را در Hiddify یا Sing-box وارد کنید.');
+                            })
+                            .catch((err) => {
+                                console.error('Clipboard API error:', err);
+                                // Fallback to execCommand
+                                try {
+                                    linkElement.value = link;
+                                    linkElement.select();
+                                    document.execCommand('copy');
+                                    alert('لینک سابسکریپشن کپی شد! آن را در Hiddify یا Sing-box وارد کنید.');
+                                } catch (fallbackErr) {
+                                    console.error('Fallback copy error:', fallbackErr);
+                                    alert('خطا در کپی لینک. لطفاً لینک را به صورت دستی کپی کنید:\n' + link);
+                                }
+                            });
+                    } else {
+                        // Fallback for older browsers
+                        try {
+                            linkElement.value = link;
+                            linkElement.select();
+                            document.execCommand('copy');
+                            alert('لینک سابسکریپشن کپی شد! آن را در Hiddify یا Sing-box وارد کنید.');
+                        } catch (err) {
+                            console.error('Fallback copy error:', err);
+                            alert('خطا در کپی لینک. لطفاً لینک را به صورت دستی کپی کنید:\n' + link);
+                        }
                     }
                 };
             } catch (error) {
